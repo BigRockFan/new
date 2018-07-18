@@ -7,7 +7,7 @@
 using namespace std;
 //Header begins here
 
-class entity
+class entity 
 {
 private:
 	int attack;
