@@ -48,6 +48,7 @@ public:
 	void charged();
 	void chargereset();
 	void battle(entity);
+	void defeated(entity*);
 };
 
 int entity::GetHealth()
@@ -148,6 +149,11 @@ void entity::battle(entity enemy)
 			{
 				slash(&enemy);
 				printbattle(enemy);
+				if (enemy.checkhealth() == 0)
+				{
+					defeated(&enemy);
+					break;
+				}
 			}
 			else if (choice == 2)
 			{
@@ -167,12 +173,28 @@ void entity::battle(entity enemy)
 		{
 			magicatt(&enemy);
 			chargereset();
+			printbattle(enemy);
+			if (enemy.checkhealth() == 0)
+			{
+				defeated(&enemy);
+				break;
+			}
 		}
 		cout << endl;
 		cout << enemy.GetName() << "'s turn-";
 		enemy.slash(this);
 		printbattle(enemy);
+		if (checkhealth() == 0)
+		{
+			enemy.defeated(this);
+			break;
+		}
 	}
+}
+
+void entity::defeated(entity *enemy)
+{
+	cout << endl << name << " defeated " << (*enemy).GetName() << "!\n";
 }
 
 //Header ends here
