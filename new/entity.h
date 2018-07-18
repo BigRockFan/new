@@ -47,6 +47,7 @@ public:
 	void charging();
 	void charged();
 	void chargereset();
+	void battle(entity);
 };
 
 int entity::GetHealth()
@@ -127,6 +128,47 @@ void entity::chargereset()
 {
 	energy[0] = 0;
 	energy[1] = 0;
+}
+
+void entity::battle(entity enemy)
+{
+	int choice;
+	printbattle(enemy);
+	while (enemy.checkhealth() == 1 && checkhealth() == 1)
+	{
+		if (checkcharging1() == 0)
+		{
+			cout << "\nYour Turn-\nWould you like to:\n1) Slash with your sword\n2) Attack with magic" << endl;
+			cin >> choice;
+			if (choice == 1)
+			{
+				slash(&enemy);
+				printbattle(enemy);
+			}
+			else if (choice == 2)
+			{
+				charging();
+			}
+			else
+			{
+				cout << "Try again!" << endl;
+				continue;
+			}
+		}
+		else if (checkcharging1() == 1 && checkcharging2() == 0)
+		{
+			charged();
+		}
+		else if (checkcharging1() == 1 && checkcharging2() == 1)
+		{
+			magicatt(&enemy);
+			chargereset();
+		}
+		cout << endl;
+		cout << enemy.GetName() << "'s turn-";
+		enemy.slash(this);
+		printbattle(enemy);
+	}
 }
 
 //Header ends here
