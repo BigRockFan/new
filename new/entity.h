@@ -84,16 +84,20 @@ void entity::printstats()
 void entity::slash(entity *enemy)
 {
 	(*enemy).health -= attack;
+	if ((*enemy).health < 0)
+		(*enemy).health = 0;
 	cout << endl << name << " hit " << (*enemy).name << " for " << attack << " damage!\n";
 }
 void entity::magicatt(entity *enemy)
 {
 	(*enemy).health -= magic;
+	if ((*enemy).health < 0)
+		(*enemy).health = 0;
 	cout << endl << name << " hit " << (*enemy).name << " for " << magic << " damage!\n";
 }
 int entity::checkhealth()
 {
-	if (health <= 0)
+	if (health == 0)
 		return 0;
 	else
 		return 1;
